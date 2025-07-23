@@ -1,0 +1,58 @@
+work_dir: ../egait_runs/work_diff_combine_fagg/fagg_att_cascade_st
+model_saved_name: ../egait_runs/runs_diff_combine_fagg/fagg_att_cascade_st
+# feeder
+seed: 4
+feeder: feeders.feeder_same_combine.Feeder
+
+train_ratio: 0.9
+val_ratio: 0.0
+test_ratio: 0.1
+train_feeder_args:
+  random_choose: True
+  random_move: True
+  window_size: 48
+  data_p_path: ./datasets/Emotion-Gait_train_joint.npy
+  data_m_path: ./datasets/Emotion-Gait_train_movement.npy
+  label_path: ./datasets/Emotion-Gait_train_label.pkl
+  feature_path: ./datasets/Emotion-Gait_train_affective.npy
+  debug: False
+  normalization: False
+
+test_feeder_args:
+  data_p_path: ./datasets/Emotion-Gait_test_joint.npy
+  data_m_path: ./datasets/Emotion-Gait_test_movement.npy
+  label_path: ./datasets/Emotion-Gait_test_label.pkl
+  feature_path: ./datasets/Emotion-Gait_test_affective.npy
+  normalization: False
+
+  
+# model
+save_model: False
+model: model.CGTGait.Model
+model_args:
+  num_class: 4
+  num_constraints: 31
+  num_point: 16
+  in_channels_p: 3
+  in_channels_m: 8
+  graph: graph.EGait.Graph
+  graph_args:
+    labeling_mode: 'spatial'
+
+#optim
+weight_decay: 0.001
+base_lr: 0.01
+step: [30,60]
+optimizer: SGD
+warm_up_epoch: 5
+
+# training
+device: [0]
+batch_size: 32
+test_batch_size: 32
+num_epoch: 80
+nesterov: True
+
+
+
+
